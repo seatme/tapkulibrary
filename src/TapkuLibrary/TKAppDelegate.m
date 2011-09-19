@@ -61,7 +61,10 @@
 - (void) applicationWillTerminate:(UIApplication *)application {
 	[self applicationWillShutdown:application];
 }
-- (void) applicationWillShutdown:(UIApplication *)application{}
+
+- (void) applicationWillShutdown:(UIApplication *)application{
+    
+}
 
 
 

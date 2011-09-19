@@ -61,7 +61,7 @@ CGFloat demoRGInnerRadius(CGRect bounds){
 	
 	NSMutableArray *ar = [NSMutableArray array];
 	for(UIColor *c in colors){
-		[ar addObject:(id)c.CGColor];
+		[ar addObject:objc_retainedObject(c.CGColor)];
 	}
 	
 	

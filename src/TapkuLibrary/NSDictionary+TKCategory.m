@@ -79,9 +79,7 @@
 			
             while ((aValue = [multipleValueEnum nextObject]))
             {
-                NSString *escapedObject
-                = (NSString *) CFURLCreateStringByAddingPercentEscapes(
-                                                                       NULL, (CFStringRef) [aValue description], NULL, (CFStringRef) @";:@&=/+", cfStrEnc);
+                NSString *escapedObject = (NSString *) CFURLCreateStringByAddingPercentEscapes( NULL, (CFStringRef) [aValue description], NULL, (CFStringRef) @";:@&=/+", cfStrEnc);
                 [s appendFormat:@"%@=%@&", escapedKey, escapedObject];
             }
         }

@@ -11,29 +11,15 @@
 
 @implementation UIBarButtonItem (TKCategory)
 
-+ (UIBarButtonItem*) barButtonItemWithTitle:(NSString*)t 
++ (UIBarButtonItem*) barButtonItemWithTitle:(NSString*)title
 							backgroundImage:(UIImage*)backgroundImage 
 				 highlightedBackgroundImage:(UIImage*)highlighedBackgroundImage 
-									 target:(id)t selector:(SEL)s{
+									 target:(id)target selector:(SEL)s{
 	
-	UIButton *btn = [UIButton buttonWithFrame:CGRectMake(0,0,52,44) title:t];
-	[btn addTarget:t action:s forControlEvents:UIControlEventTouchUpInside];
+	UIButton *btn = [UIButton buttonWithFrame:CGRectMake(0,0,52,44) title:title];
+	[btn addTarget:target action:s forControlEvents:UIControlEventTouchUpInside];
 	UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:btn];
-	item.target = t;
-	item.action = s;
-	return [item autorelease];
-	
-}
-
-+ (UIBarButtonItem*) barButtonItemWithImage:(UIImage*)img 
-							backgroundImage:(UIImage*)backgroundImage 
-				 highlightedBackgroundImage:(UIImage*)highlighedBackgroundImage 
-									 target:(id)t selector:(SEL)s{
-	
-	UIButton *btn = [UIButton buttonWithFrame:CGRectMake(0,0,52,44) image:img];
-	[btn addTarget:t action:s forControlEvents:UIControlEventTouchUpInside];
-	UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:btn];
-	item.target = t;
+	item.target = target;
 	item.action = s;
 	return [item autorelease];
 	
