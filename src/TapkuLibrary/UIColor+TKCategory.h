@@ -1,10 +1,10 @@
 //
-//  coverpadViewController.h
-//  Created by Devin Ross on 4/17/10.
+//  UIColor+TKCategory.h
+//  Created by Devin Ross on 5/14/11.
 //
 /*
  
- tapku.com || https://github.com/devinross/tapkulibrary
+ tapku.com || http://github.com/devinross/tapkulibrary
  
  Permission is hereby granted, free of charge, to any person
  obtaining a copy of this software and associated documentation
@@ -30,14 +30,8 @@
  */
 
 #import <UIKit/UIKit.h>
-#import <TapkuLibrary/TapkuLibrary.h>
 
-@interface CoverflowViewController_iPad : UIViewController <TKCoverflowViewDelegate,TKCoverflowViewDataSource,UIScrollViewDelegate> {
-	
-	TKCoverflowView *coverflow;
-	NSArray *covers;
-	
-}
-
+@interface UIColor (TKCategory)
++ (id) colorWithHex:(unsigned int)hexValue;
++ (id) colorWithHex:(unsigned int)hexValue alpha:(CGFloat)alpha;
 @end
-

@@ -11,6 +11,8 @@
 		3B07B1CA133AA68A001B1C6F /* TKNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B07B1C8133AA68A001B1C6F /* TKNavigationController.m */; };
 		3B07B7CA133ADAD8001B1C6F /* UIBarButtonItem+TKCategory.h in Headers */ = {isa = PBXBuildFile; fileRef = 3B07B7C8133ADAD8001B1C6F /* UIBarButtonItem+TKCategory.h */; };
 		3B07B7CB133ADAD8001B1C6F /* UIBarButtonItem+TKCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B07B7C9133ADAD8001B1C6F /* UIBarButtonItem+TKCategory.m */; };
+		3B166A6F137F38D7006298E6 /* UIColor+TKCategory.h in Headers */ = {isa = PBXBuildFile; fileRef = 3B166A6D137F38D7006298E6 /* UIColor+TKCategory.h */; };
+		3B166A70137F38D7006298E6 /* UIColor+TKCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B166A6E137F38D7006298E6 /* UIColor+TKCategory.m */; };
 		3B1DCECA1289B84400884CDF /* NSArray+TKCategory.h in Headers */ = {isa = PBXBuildFile; fileRef = 3B1DCEC81289B84400884CDF /* NSArray+TKCategory.h */; };
 		3B1DCECB1289B84400884CDF /* NSArray+TKCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B1DCEC91289B84400884CDF /* NSArray+TKCategory.m */; };
 		3B30B174129EE0F400466666 /* TKViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B30B165129EE0D600466666 /* TKViewController.m */; };
@@ -127,6 +129,8 @@
 		3B07B1C8133AA68A001B1C6F /* TKNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKNavigationController.m; sourceTree = "<group>"; };
 		3B07B7C8133ADAD8001B1C6F /* UIBarButtonItem+TKCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+TKCategory.h"; sourceTree = "<group>"; };
 		3B07B7C9133ADAD8001B1C6F /* UIBarButtonItem+TKCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+TKCategory.m"; sourceTree = "<group>"; };
+		3B166A6D137F38D7006298E6 /* UIColor+TKCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+TKCategory.h"; sourceTree = "<group>"; };
+		3B166A6E137F38D7006298E6 /* UIColor+TKCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+TKCategory.m"; sourceTree = "<group>"; };
 		3B1DCEC81289B84400884CDF /* NSArray+TKCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+TKCategory.h"; sourceTree = "<group>"; };
 		3B1DCEC91289B84400884CDF /* NSArray+TKCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+TKCategory.m"; sourceTree = "<group>"; };
 		3B30B164129EE0D600466666 /* TKViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKViewController.h; sourceTree = "<group>"; };
@@ -476,6 +480,8 @@
 				3BB96F5712B55CD600C38F46 /* UIImageView+TKCategory.m */,
 				3B4346E212DA6A240076579B /* UIButton+TKCategory.h */,
 				3B4346E312DA6A240076579B /* UIButton+TKCategory.m */,
+				3B166A6D137F38D7006298E6 /* UIColor+TKCategory.h */,
+				3B166A6E137F38D7006298E6 /* UIColor+TKCategory.m */,
 				3BE8FF8312945C4400DBF3FC /* UIScrollview+TKCategory.h */,
 				3BE8FF8412945C4400DBF3FC /* UIScrollview+TKCategory.m */,
 				3B30B16A129EE0DF00466666 /* UINavigationBar+TKCategory.h */,
@@ -670,6 +676,7 @@
 				3BE54E7E134548CA00B59702 /* NSDictionary+TKCategory.h in Headers */,
 				3BE54E86134548E600B59702 /* TKMapPlace.h in Headers */,
 				3BE54E88134548E600B59702 /* TKMapView.h in Headers */,
+				3B166A6F137F38D7006298E6 /* UIColor+TKCategory.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -831,6 +838,7 @@
 				3BE54E7F134548CA00B59702 /* NSDictionary+TKCategory.m in Sources */,
 				3BE54E87134548E600B59702 /* TKMapPlace.m in Sources */,
 				3BE54E89134548E600B59702 /* TKMapView.m in Sources */,
+				3B166A70137F38D7006298E6 /* UIColor+TKCategory.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

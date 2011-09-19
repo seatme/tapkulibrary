@@ -18,6 +18,7 @@
 	
 	UIButton *btn = [UIButton buttonWithFrame:CGRectMake(0,0,52,44) title:title];
 	[btn addTarget:target action:s forControlEvents:UIControlEventTouchUpInside];
+
 	UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:btn];
 	item.target = target;
 	item.action = s;
