@@ -34,6 +34,16 @@
 @implementation TKCalendarMonthTableViewController
 @synthesize tableView = _tableView;
 
+- (id) initWithSunday:(BOOL)sundayFirst tableViewStyle:(UITableViewStyle)tableViewStyle {
+    self = [super initWithSunday:sundayFirst];
+    if (self) {
+        _tableViewStyle = tableViewStyle;
+    }
+    
+    return self;
+}
+
+
 - (void) viewDidUnload {
 	self.tableView.delegate = nil;
 	self.tableView.dataSource = nil;
@@ -53,7 +63,7 @@
 	height = self.view.frame.size.height - self.navigationController.navigationBar.frame.size.height - y;
 	
 	
-	_tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, y, 320, height) style:UITableViewStylePlain];
+	_tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, y, 320, height) style:_tableViewStyle];
 	_tableView.delegate = self;
 	_tableView.dataSource = self;
 	[self.view addSubview:_tableView];

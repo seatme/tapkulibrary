@@ -33,7 +33,10 @@
 
 @interface TKCalendarMonthTableViewController : TKCalendarMonthViewController <UITableViewDelegate, UITableViewDataSource>  {
 	UITableView *_tableView;
+    UITableViewStyle _tableViewStyle;
 }
 @property (retain,nonatomic) UITableView *tableView;
+- (id) initWithSunday:(BOOL)sundayFirst tableViewStyle:(UITableViewStyle)tableViewStyle;
 - (void) updateTableOffset:(BOOL)animated;
+
 @end
