@@ -10,4 +10,5 @@ Thumbs.db
 www/dev.sql
 *.tmproj
 xcuserdata
+xcshareddata
 #profile
