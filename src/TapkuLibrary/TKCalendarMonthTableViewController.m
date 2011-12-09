@@ -49,10 +49,6 @@
 	self.tableView.dataSource = nil;
 	self.tableView = nil;
 }
-- (void) dealloc {
-	self.tableView = nil;
-    [super dealloc];
-}
 
 - (void) loadView{
 	[super loadView];
@@ -63,7 +59,7 @@
 	height = self.view.frame.size.height - self.navigationController.navigationBar.frame.size.height - y;
 	
 	
-	_tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, y, 320, height) style:_tableViewStyle];
+	_tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, y, 320, height) style:_tableViewStyle]; 
 	_tableView.delegate = self;
 	_tableView.dataSource = self;
 	[self.view addSubview:_tableView];
@@ -85,7 +81,7 @@
     
     UITableViewCell *cell = [tv dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
 
 	

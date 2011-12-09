@@ -34,13 +34,16 @@
 #import "TKGlobal.h"
 #import "UIImage+TKCategory.h"
 
-//#define kCalendImagesPath @"TapkuLibrary.bundle/Images/calendar/"
 #pragma mark -
 @interface NSDate (calendarcategory)
 
 - (NSDate*) firstOfMonth;
 - (NSDate*) nextMonth;
 - (NSDate*) previousMonth;
+
+- (NSDate*) lastOfMonthDate;
++ (NSDate*) lastofMonthDate;
++ (NSDate*) lastOfCurrentMonth;
 
 @end
 
@@ -90,6 +93,37 @@
 	
 }
 
+
+
+
+- (NSDate*) lastOfMonthDate {
+	NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+	NSDateComponents *comp = [gregorian components:(NSYearCalendarUnit | NSMonthCalendarUnit) fromDate:self];
+	[comp setDay:0];
+	[comp setMonth:comp.month+1];
+	NSDate *date = [gregorian dateFromComponents:comp];
+    return date;
+}
+
++ (NSDate*) lastofMonthDate{
+    NSDate *day = [NSDate date];
+	NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+	NSDateComponents *comp = [gregorian components:(NSYearCalendarUnit | NSMonthCalendarUnit) fromDate:day];
+	[comp setDay:0];
+	[comp setMonth:comp.month+1];
+	return [gregorian dateFromComponents:comp];
+}
++ (NSDate*) lastOfCurrentMonth{
+	NSDate *day = [NSDate date];
+	NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+	NSDateComponents *comp = [gregorian components:(NSYearCalendarUnit | NSMonthCalendarUnit) fromDate:day];
+	[comp setDay:0];
+	[comp setMonth:comp.month+1];
+	return [gregorian dateFromComponents:comp];
+}
+
+
+
 @end
 
 
@@ -112,9 +146,8 @@
 	UILabel *currentDay;
 	UIImageView *selectedImageView;
 	BOOL startOnSunday;
-	NSDate *monthDate;
 }
-@property (readonly) NSDate *monthDate;
+@property (strong,nonatomic) NSDate *monthDate;
 
 - (id) initWithMonth:(NSDate*)date marks:(NSArray*)marks startDayOnSunday:(BOOL)sunday;
 - (void) setTarget:(id)target action:(SEL)action;
@@ -133,9 +166,9 @@
 
 @interface TKCalendarMonthTiles (private)
 
-@property (readonly) UIImageView *selectedImageView;
-@property (readonly) UILabel *currentDay;
-@property (readonly) UILabel *dot;
+@property (strong,nonatomic) UIImageView *selectedImageView;
+@property (strong,nonatomic) UILabel *currentDay;
+@property (strong,nonatomic) UILabel *dot;
 @end
 
 #pragma mark -
@@ -227,11 +260,11 @@
 }
 
 - (id) initWithMonth:(NSDate*)date marks:(NSArray*)markArray startDayOnSunday:(BOOL)sunday{
-	if(![super initWithFrame:CGRectZero]) return nil;
+	if(!(self=[super initWithFrame:CGRectZero])) return nil;
 
 	firstOfPrev = -1;
-	marks = [markArray retain];
-	monthDate = [date retain];
+	marks = markArray;
+	monthDate = date;
 	startOnSunday = sunday;
 	
 
@@ -281,14 +314,6 @@
 	self.multipleTouchEnabled = NO;
 	
 	return self;
-}
-- (void) dealloc {
-	[currentDay release];
-	[dot release];
-	[selectedImageView release];
-	[marks release];
-	[monthDate release];
-    [super dealloc];
 }
 
 - (void) setTarget:(id)t action:(SEL)a{
@@ -540,8 +565,7 @@
 		selectedPortion = portion;
 		[target performSelector:action withObject:[NSArray arrayWithObject:[NSNumber numberWithInt:day]]];
 		
-	}
-	else if(down){
+	}else if(down){
 		[target performSelector:action withObject:[NSArray arrayWithObjects:[NSNumber numberWithInt:day],[NSNumber numberWithInt:portion],nil]];
 		selectedDay = day;
 		selectedPortion = portion;
@@ -604,12 +628,12 @@
 
 @interface TKCalendarMonthView (private)
 
-@property (readonly) UIScrollView *tileBox;
-@property (readonly) UIImageView *topBackground;
-@property (readonly) UILabel *monthYear;
-@property (readonly) UIButton *leftArrow;
-@property (readonly) UIButton *rightArrow;
-@property (readonly) UIImageView *shadow;
+@property (strong,nonatomic) UIScrollView *tileBox;
+@property (strong,nonatomic) UIImageView *topBackground;
+@property (strong,nonatomic) UILabel *monthYear;
+@property (strong,nonatomic) UIButton *leftArrow;
+@property (strong,nonatomic) UIButton *rightArrow;
+@property (strong,nonatomic) UIImageView *shadow;
 
 @end
 
@@ -630,17 +654,15 @@
 	
 	
 	
-	currentTile = [[[TKCalendarMonthTiles alloc] initWithMonth:[[NSDate date] firstOfMonth] marks:nil startDayOnSunday:sunday] autorelease];
+	currentTile = [[TKCalendarMonthTiles alloc] initWithMonth:[[NSDate date] firstOfMonth] marks:nil startDayOnSunday:sunday];
 	[currentTile setTarget:self action:@selector(tile:)];
 	
-	[currentTile setTarget:self action:@selector(tile:)];
 	CGRect r = CGRectMake(0, 0, self.tileBox.bounds.size.width, self.tileBox.bounds.size.height + self.tileBox.frame.origin.y);
 
 	
 	self.frame = r;
 	
 	
-	[currentTile retain];
 	
 	[self addSubview:self.topBackground];
 	[self.tileBox addSubview:currentTile];
@@ -693,7 +715,6 @@
 	sund.day = 11;
 	NSString *sat = [dateFormat stringFromDate:[NSDate dateFromDateInformation:sund timeZone:tz]];
 	
-	[dateFormat release];
 
 
 	
@@ -715,20 +736,9 @@
 		label.textColor = [UIColor colorWithRed:59/255. green:73/255. blue:88/255. alpha:1];
 
 		i++;
-		[label release];
 	}
 	
 	return self;
-}
-- (void) dealloc {
-	[shadow release];
-	[topBackground release];
-	[leftArrow release];
-	[monthYear release];
-	[rightArrow release];
-	[tileBox release];
-	[currentTile release];
-    [super dealloc];
 }
 
 
@@ -847,7 +857,6 @@
 - (void) animationEnded{
 	self.userInteractionEnabled = YES;
 	[oldTile removeFromSuperview];
-	[oldTile release];
 	oldTile = nil;
 }
 
@@ -881,7 +890,6 @@
 																   startDayOnSunday:sunday];
 		[newTile setTarget:self action:@selector(tile:)];
 		[currentTile removeFromSuperview];
-		[currentTile release];
 		currentTile = newTile;
 		[self.tileBox addSubview:currentTile];
 		self.tileBox.frame = CGRectMake(0, 44, newTile.frame.size.width, newTile.frame.size.height);
@@ -901,13 +909,12 @@
 	NSArray *dates = [TKCalendarMonthTiles rangeOfDatesInMonthGrid:[currentTile monthDate] startOnSunday:sunday];
 	NSArray *ar = [dataSource calendarMonthView:self marksFromDate:[dates objectAtIndex:0] toDate:[dates lastObject]];
 	
-	TKCalendarMonthTiles *refresh = [[[TKCalendarMonthTiles alloc] initWithMonth:[currentTile monthDate] marks:ar startDayOnSunday:sunday] autorelease];
+	TKCalendarMonthTiles *refresh = [[TKCalendarMonthTiles alloc] initWithMonth:[currentTile monthDate] marks:ar startDayOnSunday:sunday];
 	[refresh setTarget:self action:@selector(tile:)];
 	
 	[self.tileBox addSubview:refresh];
 	[currentTile removeFromSuperview];
-	[currentTile release];
-	currentTile = [refresh retain];
+	currentTile = refresh;
 	
 }
 
@@ -976,7 +983,7 @@
 }
 - (UIButton *) leftArrow{
 	if(leftArrow==nil){
-		leftArrow = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+		leftArrow = [UIButton buttonWithType:UIButtonTypeCustom];
 		leftArrow.tag = 0;
 		[leftArrow addTarget:self action:@selector(changeMonth:) forControlEvents:UIControlEventTouchUpInside];
 		
@@ -991,7 +998,7 @@
 }
 - (UIButton *) rightArrow{
 	if(rightArrow==nil){
-		rightArrow = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+		rightArrow = [UIButton buttonWithType:UIButtonTypeCustom];
 		rightArrow.tag = 1;
 		[rightArrow addTarget:self action:@selector(changeMonth:) forControlEvents:UIControlEventTouchUpInside];
 		rightArrow.frame = CGRectMake(320-45, 0, 48, 38);

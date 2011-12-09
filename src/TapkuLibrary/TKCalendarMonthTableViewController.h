@@ -35,8 +35,7 @@
 	UITableView *_tableView;
     UITableViewStyle _tableViewStyle;
 }
-@property (retain,nonatomic) UITableView *tableView;
-- (id) initWithSunday:(BOOL)sundayFirst tableViewStyle:(UITableViewStyle)tableViewStyle;
+@property (strong,nonatomic) UITableView *tableView; 
 - (void) updateTableOffset:(BOOL)animated;
 
 @end

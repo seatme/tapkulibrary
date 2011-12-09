@@ -1,6 +1,18 @@
-*~
-*.swp
-*.DS_Store?
+# xcode noise
+build
+TapkuLibrary/build/**
+TapkuLibraryDemo/build/**
+*.pbxuser
+*.perspectivev3
+*.mode1v3
+*.xcuserstate
+xcuserdata
+
+# old skool
+.svn
+.cvs
+
+# osx noise
 .DS_Store
 */build/*
 build/*
