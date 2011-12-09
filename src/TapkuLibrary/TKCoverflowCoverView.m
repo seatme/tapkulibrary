@@ -55,7 +55,7 @@
     [self addSubview:reflected];
 
     gradientLayer = [CAGradientLayer layer];
-    gradientLayer.colors = [NSArray arrayWithObjects:objc_retainedObject([UIColor colorWithWhite:0 alpha:0.5].CGColor),objc_retainedObject([UIColor colorWithWhite:0 alpha:1].CGColor),nil];
+    gradientLayer.colors = [NSArray arrayWithObjects:(id)[UIColor colorWithWhite:0 alpha:0.5].CGColor,(id)[UIColor colorWithWhite:0 alpha:1].CGColor,nil];
     gradientLayer.startPoint = CGPointMake(0,0);
     gradientLayer.endPoint = CGPointMake(0,0.3);
     gradientLayer.frame = CGRectMake(0, self.frame.size.width, self.frame.size.width, self.frame.size.width);

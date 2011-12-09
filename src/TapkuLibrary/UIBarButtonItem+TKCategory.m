@@ -44,7 +44,7 @@
 	
 	[btn addTarget:t action:s forControlEvents:UIControlEventTouchUpInside]; 
 	UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:btn];
-	item.target = target;
+	item.target = t;
 	item.action = s;
 	return item;
 	
