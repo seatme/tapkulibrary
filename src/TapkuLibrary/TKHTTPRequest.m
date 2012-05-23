@@ -173,11 +173,10 @@ static inline NSString * TKKeyPathFromOperationState(TKOperationState state) {
 	_receivedDataBytes = 0;
 	_totalExpectedImageSize = 0;
 	
-	if(self.URLRequest)
+	if(self.URLRequest) 
 		self.connection = [[NSURLConnection alloc] initWithRequest:self.URLRequest delegate:self];
 	else
-		self.connection = [[NSURLConnection alloc] initWithRequest:[NSURLRequest requestWithURL:self.URL] delegate:self];
-	
+		self.connection = [[NSURLConnection alloc] initWithRequest:[NSURLRequest requestWithURL:self.URL cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30] delegate:self];
 	
 	[self.connection start];
 	
@@ -351,7 +350,7 @@ static inline NSString * TKKeyPathFromOperationState(TKOperationState state) {
 	self.responseHeaders = [httpResponse allHeaderFields];
 	
 	
-	if(self.statusCode == 200) {
+	if(self.statusCode > 199 && self.statusCode < 300)  {
 		_totalExpectedImageSize = (double)response.expectedContentLength;
 		NSUInteger contentSize = [httpResponse expectedContentLength] > 0 ? [httpResponse expectedContentLength] : 0;
 		self.data = [[NSMutableData alloc] initWithCapacity:contentSize];
@@ -487,36 +486,47 @@ static inline NSString * TKKeyPathFromOperationState(TKOperationState state) {
 		[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 #endif
 }
-+ (void) hideNetworkActivityIndicator{
-#if TARGET_OS_IPHONE
-	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];	
-#endif
-}
-+ (void) hideNetworkActivityIndicatorAfterDelay{
-	[self performSelector:@selector(hideNetworkActivityIndicatorIfNeeeded) withObject:nil afterDelay:0.5];
-}
+
+
+
 + (void) hideNetworkActivityIndicatorIfNeeeded{
+	
 	if (runningRequestCount == 0) {
-		[self hideNetworkActivityIndicator];
+#if TARGET_OS_IPHONE
+		[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];	
+#endif
 	}
 }
-- (void) _decreaseNetworkActivity{
-	if(self.showNetworkActivity){
-		runningRequestCount--;
-		if (shouldUpdateNetworkActivityIndicator && runningRequestCount == 0) 
-			[[self class] performSelectorOnMainThread:@selector(hideNetworkActivityIndicatorAfterDelay) withObject:nil waitUntilDone:[NSThread isMainThread]];
-		
 
++ (void) increaseNetworkMain{
+	
+
+	runningRequestCount++;
+
+	
+#if TARGET_OS_IPHONE
+	if (shouldUpdateNetworkActivityIndicator) [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+#endif
+	
+}
++ (void) decreaseNetworkMain{
+	runningRequestCount--;
+#if TARGET_OS_IPHONE
+	[self performSelector:@selector(hideNetworkActivityIndicatorIfNeeeded) withObject:nil afterDelay:0.5];
+#endif
+
+}
+
+- (void) _decreaseNetworkActivity{
+	
+	if(self.showNetworkActivity && shouldUpdateNetworkActivityIndicator){
+		[[self class] performSelectorOnMainThread:@selector(decreaseNetworkMain) withObject:nil waitUntilDone:[NSThread isMainThread]];
 	}
 }
 - (void) _increaseNetworkActivity{
 	
-	
-	
-	if(self.showNetworkActivity){
-		runningRequestCount++;
-		if (shouldUpdateNetworkActivityIndicator) 
-			[[self class] performSelectorOnMainThread:@selector(showNetworkActivityIndicator) withObject:nil waitUntilDone:[NSThread isMainThread]];
+	if(self.showNetworkActivity && shouldUpdateNetworkActivityIndicator){
+		[[self class] performSelectorOnMainThread:@selector(increaseNetworkMain) withObject:nil waitUntilDone:[NSThread isMainThread]];
 	}
 }
 

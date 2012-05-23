@@ -31,8 +31,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TKTextViewCell : UITableViewCell {
-	UITextView *_textView;
-}
+/** A table view cell with a text view. */
+@interface TKTextViewCell : UITableViewCell
+
+/** The text view. */
 @property (nonatomic,strong) UITextView *textView;
+
 @end

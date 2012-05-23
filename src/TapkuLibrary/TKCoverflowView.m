@@ -60,6 +60,10 @@
 
 @implementation TKCoverflowView (hidden)
 
+- (void) awakeFromNib{
+    [self load];
+}
+
 #pragma mark Setup
 - (void) setupTransforms{
 
@@ -163,7 +167,7 @@
 	
 	if([coverViews objectAtIndex:cnt] == [NSNull null]){
 		
-		TKCoverflowCoverView *cover = [dataSource coverflowView:self coverAtIndex:cnt];
+		TKCoverflowCoverView *cover = [self.dataSource coverflowView:self coverAtIndex:cnt];
 		[coverViews replaceObjectAtIndex:cnt withObject:cover];
 		
 		CGRect r = cover.frame;
@@ -208,16 +212,25 @@
 	
 }
 - (void) adjustViewHeirarchy{
-
+	
 	int i = currentIndex-1;
-	if (i >= 0) 
-		for(;i > deck.location;i--) 
-			[self sendSubviewToBack:[coverViews objectAtIndex:i]];
+	if (i >= 0) {
+		for(;i > deck.location;i--) {
+			if([coverViews objectAtIndex:i] != [NSNull null])
+				[self sendSubviewToBack:[coverViews objectAtIndex:i]];
+		}
+	}
+
 	
 	i = currentIndex+1;
-	if(i<numberOfCovers-1) 
-		for(;i < deck.location+deck.length;i++) 
-			[self sendSubviewToBack:[coverViews objectAtIndex:i]];
+	if(i<numberOfCovers-1){
+		for(;i < deck.location+deck.length;i++){
+			if([coverViews objectAtIndex:i] != [NSNull null])
+				[self sendSubviewToBack:[coverViews objectAtIndex:i]];
+		}
+	}
+	
+			
 	
 	UIView *v = [coverViews objectAtIndex:currentIndex];
 	if((NSObject*)v != [NSNull null])
@@ -260,14 +273,14 @@
 	}
 	
 	if(animated) [UIView commitAnimations];
-	else [coverflowDelegate coverflowView:self coverAtIndexWasBroughtToFront:currentIndex];
+	else [self.coverflowDelegate coverflowView:self coverAtIndexWasBroughtToFront:currentIndex];
 
 }
 - (void) animationDidStop:(NSString *)animationID finished:(NSNumber *)finished context:(void *)context{
 
 	if([finished boolValue]) [self adjustViewHeirarchy];
 	
-	if([finished boolValue] && [animationID intValue] == currentIndex) [coverflowDelegate coverflowView:self coverAtIndexWasBroughtToFront:currentIndex];
+	if([finished boolValue] && [animationID intValue] == currentIndex) [self.coverflowDelegate coverflowView:self coverAtIndexWasBroughtToFront:currentIndex];
 	
 }
 
@@ -284,17 +297,7 @@
 	currentSize = frame.size;
     return self;
 }
-- (void) dealloc {	
-	
-	yard = nil;
-	views = nil;
-	coverViews = nil;
-	
-	currentTouch = nil;
-	coverflowDelegate = nil;
-	dataSource = nil;
-	
-}
+
 
 - (void) layoutSubviews{
 	
@@ -382,8 +385,8 @@
 	if(touch.view == currentTouch){
 		if(touch.tapCount > 1 && currentIndex == [coverViews indexOfObject:currentTouch]){
 
-			if([coverflowDelegate respondsToSelector:@selector(coverflowView:coverAtIndexWasDoubleTapped:)])
-				[coverflowDelegate coverflowView:self coverAtIndexWasDoubleTapped:currentIndex];
+			if([self.coverflowDelegate respondsToSelector:@selector(coverflowView:coverAtIndexWasDoubleTapped:)])
+				[self.coverflowDelegate coverflowView:self coverAtIndexWasDoubleTapped:currentIndex];
 			
 		}else{
 			int index = [coverViews indexOfObject:currentTouch];

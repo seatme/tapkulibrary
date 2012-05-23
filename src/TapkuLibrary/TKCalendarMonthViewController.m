@@ -32,6 +32,12 @@
 #import "TKCalendarMonthView.h"
 
 
+@interface TKCalendarMonthViewController () {
+	BOOL _sundayFirst;
+}
+
+@end
+
 @implementation TKCalendarMonthViewController
 @synthesize monthView = _monthView;
 
@@ -47,17 +53,9 @@
 - (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
 	return NO;
 }
-- (void) didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-}
+
 - (void) viewDidUnload {
-	self.monthView.delegate = nil;
-	self.monthView.dataSource = nil;
 	self.monthView = nil;
-}
-- (void) dealloc {
-	self.monthView.delegate = nil;
-	self.monthView.dataSource = nil;
 }
 
 
@@ -75,7 +73,6 @@
 
 - (NSArray*) calendarMonthView:(TKCalendarMonthView*)monthView marksFromDate:(NSDate*)startDate toDate:(NSDate*)lastDate{
 	return nil;
-	
 }
 
 
