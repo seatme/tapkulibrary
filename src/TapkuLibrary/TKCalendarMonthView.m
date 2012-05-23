@@ -523,13 +523,12 @@
 	
 	[self addSubview:self.selectedImageView];
 	self.currentDay.text = [NSString stringWithFormat:@"%d",day];
+
+	NSInteger markOffset = row * 7 + column;
 	
-	if ([marks count] > 0) {
-		if([[marks objectAtIndex: row * 7 + column] boolValue])
-			[self.selectedImageView addSubview:self.dot];
-		else
-			[self.dot removeFromSuperview];
-	}else{
+	if ([marks count] > markOffset && [[marks objectAtIndex:markOffset] boolValue]) {
+		[self.selectedImageView addSubview:self.dot];
+	} else {
 		[self.dot removeFromSuperview];
 	}
 	
