@@ -140,6 +140,8 @@
 	UILabel *currentDay;
 	UIImageView *selectedImageView;
 	BOOL startOnSunday;
+    
+    NSArray *_accessibilityElements;
 }
 @property (strong,nonatomic) NSDate *monthDate;
 
@@ -160,6 +162,8 @@
 @property (strong,nonatomic) UIImageView *selectedImageView;
 @property (strong,nonatomic) UILabel *currentDay;
 @property (strong,nonatomic) UILabel *dot;
+
+- (NSArray *)accesibilityElements;
 @end
 
 #pragma mark -
@@ -303,7 +307,7 @@
 	[self.selectedImageView addSubview:self.currentDay];
 	[self.selectedImageView addSubview:self.dot];
 	self.multipleTouchEnabled = NO;
-	
+	    
 	return self;
 }
 
@@ -604,6 +608,105 @@
 		selectedImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamedTK:@"TapkuLibrary.bundle/Images/calendar/Month Calendar Date Tile Selected"]];
 	}
 	return selectedImageView;
+}
+
+#pragma mark - Accessibility
+
+// TODO: Use date formatter to provide accessibility labels in the same manner as the iPhone calendar app.
+- (NSArray *)accesibilityElements
+{
+    if (!_accessibilityElements) {
+        NSMutableArray *elements = [[NSMutableArray alloc] initWithCapacity:daysInMonth];
+
+        int index = 0;
+        
+        if(firstOfPrev>0){
+            for(int i = firstOfPrev;i<= lastOfPrev;i++){
+                UIAccessibilityElement *element = [[UIAccessibilityElement alloc] initWithAccessibilityContainer:self];
+                CGRect elementFrame = [self rectForCellAtIndex:index];
+                // Adjust for the top padding added in -rectForCellAtIndex:
+                elementFrame = CGRectOffset(elementFrame, 0.0f, -6.0f);
+                element.accessibilityFrame = [self.window convertRect:elementFrame fromView:self];
+                element.accessibilityLabel = [NSString stringWithFormat:@"%d (Previous Month)",i];
+                UIAccessibilityTraits traits = UIAccessibilityTraitButton;
+                if (selectedDay == i) {
+                    traits |= UIAccessibilityTraitSelected;
+                }
+                element.accessibilityTraits = traits;
+                element.accessibilityIdentifier = [NSString stringWithFormat:@"calendar_day_item_%d", index];
+                
+                [elements addObject:element];
+                
+                index++;
+            }
+        }
+        
+        
+        for(int i=1; i <= daysInMonth; i++){
+            
+            UIAccessibilityElement *element = [[UIAccessibilityElement alloc] initWithAccessibilityContainer:self];
+            CGRect elementFrame = [self rectForCellAtIndex:index];
+            // Adjust for the top padding added in -rectForCellAtIndex:
+            elementFrame = CGRectOffset(elementFrame, 0.0f, -6.0f);
+            element.accessibilityFrame = [self.window convertRect:elementFrame fromView:self];
+            element.accessibilityLabel = [NSString stringWithFormat:@"%d",i];
+            UIAccessibilityTraits traits = UIAccessibilityTraitButton;
+            if (selectedDay == i) {
+                traits |= UIAccessibilityTraitSelected;
+            }
+            element.accessibilityTraits = traits;
+            element.accessibilityIdentifier = [NSString stringWithFormat:@"calendar_day_item_%d", index];
+            
+            [elements addObject:element];
+
+            index++;
+        }
+        
+        int i = 1;
+        while(index % 7 != 0){
+            UIAccessibilityElement *element = [[UIAccessibilityElement alloc] initWithAccessibilityContainer:self];
+            CGRect elementFrame = [self rectForCellAtIndex:index];
+            // Adjust for the top padding added in -rectForCellAtIndex:
+            elementFrame = CGRectOffset(elementFrame, 0.0f, -6.0f);
+            element.accessibilityFrame = [self.window convertRect:elementFrame fromView:self];
+            element.accessibilityLabel = [NSString stringWithFormat:@"%d (Next Month)",i];
+            UIAccessibilityTraits traits = UIAccessibilityTraitButton;
+            if (selectedDay == i) {
+                traits |= UIAccessibilityTraitSelected;
+            }
+            element.accessibilityTraits = traits;
+            element.accessibilityIdentifier = [NSString stringWithFormat:@"calendar_day_item_%d", index];
+            
+            [elements addObject:element];
+
+            i++;
+            index++;
+        }
+        
+        _accessibilityElements = [elements copy];
+    }
+    
+    return _accessibilityElements;
+}
+
+- (BOOL)isAccessibilityElement
+{
+    return NO;
+}
+
+- (NSInteger)accessibilityElementCount
+{
+    return [[self accesibilityElements] count];
+}
+
+- (id)accessibilityElementAtIndex:(NSInteger)index
+{
+    return [[self accesibilityElements] objectAtIndex:index];
+}
+
+- (NSInteger)indexOfAccessibilityElement:(id)element
+{
+    return [[self accesibilityElements] indexOfObject:element];
 }
 
 @end
@@ -958,6 +1061,7 @@
 		[leftArrow addTarget:self action:@selector(changeMonth:) forControlEvents:UIControlEventTouchUpInside];
 		[leftArrow setImage:[UIImage imageNamedTK:@"TapkuLibrary.bundle/Images/calendar/Month Calendar Left Arrow"] forState:0];
 		leftArrow.frame = CGRectMake(0, 0, 48, 38);
+        leftArrow.accessibilityLabel = NSLocalizedString(@"Previous Month", nil);
 	}
 	return leftArrow;
 }
@@ -968,6 +1072,7 @@
 		[rightArrow addTarget:self action:@selector(changeMonth:) forControlEvents:UIControlEventTouchUpInside];
 		rightArrow.frame = CGRectMake(320-45, 0, 48, 38);
 		[rightArrow setImage:[UIImage imageNamedTK:@"TapkuLibrary.bundle/Images/calendar/Month Calendar Right Arrow"] forState:0];
+        rightArrow.accessibilityLabel = NSLocalizedString(@"Next Month", nil);
 	}
 	return rightArrow;
 }
