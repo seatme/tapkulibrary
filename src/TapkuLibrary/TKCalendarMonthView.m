@@ -612,28 +612,53 @@
 
 #pragma mark - Accessibility
 
-// TODO: Use date formatter to provide accessibility labels in the same manner as the iPhone calendar app.
 - (NSArray *)accesibilityElements
 {
     if (!_accessibilityElements) {
+        NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+        NSTimeZone *gmtTimeZone = [NSTimeZone timeZoneForSecondsFromGMT:0];
+        calendar.timeZone = gmtTimeZone;
+        
+        NSDateFormatter *labelDateFormatter = [[NSDateFormatter alloc] init];
+        labelDateFormatter.dateStyle = NSDateFormatterMediumStyle;
+        labelDateFormatter.timeStyle = NSDateFormatterNoStyle;
+        labelDateFormatter.timeZone = gmtTimeZone;
+
+        NSDateFormatter *identifierDateFormatter = [[NSDateFormatter alloc] init];
+        identifierDateFormatter.dateStyle = NSDateFormatterShortStyle;
+        identifierDateFormatter.timeStyle = NSDateFormatterNoStyle;
+        identifierDateFormatter.timeZone = gmtTimeZone;
+        
         NSMutableArray *elements = [[NSMutableArray alloc] initWithCapacity:daysInMonth];
 
         int index = 0;
         
+        NSDateComponents *components = nil;
+        NSUInteger yearMonthTimeZoneCalendarUnits = (NSYearCalendarUnit |
+                                                     NSMonthCalendarUnit |
+                                                     NSTimeZoneCalendarUnit);
+        
         if(firstOfPrev>0){
+            components = [[NSDateComponents alloc] init];
+            components.month = -1;
+            NSDate *previousMonthDate = [calendar dateByAddingComponents:components
+                                                                  toDate:monthDate
+                                                                 options:0];
+            components = [calendar components:yearMonthTimeZoneCalendarUnits
+                                     fromDate:previousMonthDate];
+
             for(int i = firstOfPrev;i<= lastOfPrev;i++){
+                components.day = i;
+                NSDate *representedDate = [calendar dateFromComponents:components];
+                
                 UIAccessibilityElement *element = [[UIAccessibilityElement alloc] initWithAccessibilityContainer:self];
                 CGRect elementFrame = [self rectForCellAtIndex:index];
                 // Adjust for the top padding added in -rectForCellAtIndex:
                 elementFrame = CGRectOffset(elementFrame, 0.0f, -6.0f);
                 element.accessibilityFrame = [self.window convertRect:elementFrame fromView:self];
-                element.accessibilityLabel = [NSString stringWithFormat:@"%d (Previous Month)",i];
-                UIAccessibilityTraits traits = UIAccessibilityTraitButton;
-                if (selectedDay == i) {
-                    traits |= UIAccessibilityTraitSelected;
-                }
-                element.accessibilityTraits = traits;
-                element.accessibilityIdentifier = [NSString stringWithFormat:@"calendar_day_item_%d", index];
+                element.accessibilityLabel = [labelDateFormatter stringFromDate:representedDate];
+                element.accessibilityTraits = UIAccessibilityTraitButton;
+                element.accessibilityIdentifier = [identifierDateFormatter stringFromDate:representedDate];
                 
                 [elements addObject:element];
                 
@@ -643,39 +668,49 @@
         
         
         for(int i=1; i <= daysInMonth; i++){
-            
+            components = [calendar components:yearMonthTimeZoneCalendarUnits
+                                     fromDate:monthDate];
+            components.day = i;
+            NSDate *representedDate = [calendar dateFromComponents:components];
+
             UIAccessibilityElement *element = [[UIAccessibilityElement alloc] initWithAccessibilityContainer:self];
             CGRect elementFrame = [self rectForCellAtIndex:index];
             // Adjust for the top padding added in -rectForCellAtIndex:
             elementFrame = CGRectOffset(elementFrame, 0.0f, -6.0f);
             element.accessibilityFrame = [self.window convertRect:elementFrame fromView:self];
-            element.accessibilityLabel = [NSString stringWithFormat:@"%d",i];
+            element.accessibilityLabel = [labelDateFormatter stringFromDate:representedDate];
             UIAccessibilityTraits traits = UIAccessibilityTraitButton;
             if (selectedDay == i) {
                 traits |= UIAccessibilityTraitSelected;
             }
             element.accessibilityTraits = traits;
-            element.accessibilityIdentifier = [NSString stringWithFormat:@"calendar_day_item_%d", index];
+            element.accessibilityIdentifier = [identifierDateFormatter stringFromDate:representedDate];
             
             [elements addObject:element];
 
             index++;
         }
         
+        components = [[NSDateComponents alloc] init];
+        components.month = 1;
+        NSDate *nextMonthDate = [calendar dateByAddingComponents:components
+                                                              toDate:monthDate
+                                                             options:0];
+        components = [calendar components:yearMonthTimeZoneCalendarUnits
+                                 fromDate:nextMonthDate];
         int i = 1;
         while(index % 7 != 0){
+            components.day = i;
+            NSDate *representedDate = [calendar dateFromComponents:components];
+            
             UIAccessibilityElement *element = [[UIAccessibilityElement alloc] initWithAccessibilityContainer:self];
             CGRect elementFrame = [self rectForCellAtIndex:index];
             // Adjust for the top padding added in -rectForCellAtIndex:
             elementFrame = CGRectOffset(elementFrame, 0.0f, -6.0f);
             element.accessibilityFrame = [self.window convertRect:elementFrame fromView:self];
-            element.accessibilityLabel = [NSString stringWithFormat:@"%d (Next Month)",i];
-            UIAccessibilityTraits traits = UIAccessibilityTraitButton;
-            if (selectedDay == i) {
-                traits |= UIAccessibilityTraitSelected;
-            }
-            element.accessibilityTraits = traits;
-            element.accessibilityIdentifier = [NSString stringWithFormat:@"calendar_day_item_%d", index];
+            element.accessibilityLabel = [labelDateFormatter stringFromDate:representedDate];
+            element.accessibilityTraits = UIAccessibilityTraitButton;
+            element.accessibilityIdentifier = [identifierDateFormatter stringFromDate:representedDate];
             
             [elements addObject:element];
 
