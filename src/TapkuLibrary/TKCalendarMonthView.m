@@ -769,7 +769,7 @@
 }
 - (id) initWithSundayAsFirst:(BOOL)s{
 	if (!(self = [super initWithFrame:CGRectZero])) return nil;
-	self.backgroundColor = [UIColor grayColor];
+	self.backgroundColor = [UIColor clearColor];
 
 	sunday = s;
 	currentTile = [[TKCalendarMonthTiles alloc] initWithMonth:[[NSDate date] firstOfMonth] marks:nil startDayOnSunday:sunday];
@@ -778,7 +778,7 @@
 	CGRect r = CGRectMake(0, 0, self.tileBox.bounds.size.width, self.tileBox.bounds.size.height + self.tileBox.frame.origin.y);
 	self.frame = r;
 	
-	[self addSubview:self.topBackground];
+	//[self addSubview:self.topBackground];
 	[self.tileBox addSubview:currentTile];
 	[self addSubview:self.tileBox];
 	
@@ -1084,7 +1084,7 @@
 		
 		monthYear.textAlignment = UITextAlignmentCenter;
 		monthYear.backgroundColor = [UIColor clearColor];
-		monthYear.font = [UIFont boldSystemFontOfSize:22];
+		monthYear.font = [UIFont boldSystemFontOfSize:18];
 		monthYear.textColor = [UIColor colorWithRed:59/255. green:73/255. blue:88/255. alpha:1];
 	}
 	return monthYear;
