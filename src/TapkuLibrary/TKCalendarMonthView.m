@@ -789,7 +789,7 @@
 	
 	[self addSubview:self.leftArrow];
 	[self addSubview:self.rightArrow];
-	[self addSubview:self.shadow];
+	//[self addSubview:self.shadow];
 	self.shadow.frame = CGRectMake(0, self.frame.size.height-self.shadow.frame.size.height+21, self.shadow.frame.size.width, self.shadow.frame.size.height);
 	
 	
