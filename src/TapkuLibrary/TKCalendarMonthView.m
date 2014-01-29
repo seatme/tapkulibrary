@@ -1084,7 +1084,7 @@
 		
 		monthYear.textAlignment = UITextAlignmentCenter;
 		monthYear.backgroundColor = [UIColor clearColor];
-		monthYear.font = [UIFont boldSystemFontOfSize:20];
+		monthYear.font = [UIFont boldSystemFontOfSize:18];
 		monthYear.textColor = [UIColor colorWithRed:59/255. green:73/255. blue:88/255. alpha:1];
 	}
 	return monthYear;
