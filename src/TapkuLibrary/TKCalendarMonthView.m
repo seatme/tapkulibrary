@@ -332,8 +332,8 @@
 	r.size.height -= 2;
 	[str drawInRect: r
 		   withFont: f1
-	  lineBreakMode: UILineBreakModeWordWrap 
-		  alignment: UITextAlignmentCenter];
+	  lineBreakMode: NSLineBreakByWordWrapping
+		  alignment: NSTextAlignmentCenter];
 	
 	if(mark){
 		r.size.height = 10;
@@ -341,8 +341,8 @@
 		
 		[@"•" drawInRect: r
 				withFont: f2
-		   lineBreakMode: UILineBreakModeWordWrap 
-			   alignment: UITextAlignmentCenter];
+		   lineBreakMode: NSLineBreakByWordWrapping
+			   alignment: NSTextAlignmentCenter];
 	}
 	
 	
@@ -580,7 +580,7 @@
 		currentDay.textColor = [UIColor whiteColor];
 		currentDay.backgroundColor = [UIColor clearColor];
 		currentDay.font = [UIFont boldSystemFontOfSize:dateFontSize];
-		currentDay.textAlignment = UITextAlignmentCenter;
+		currentDay.textAlignment = NSTextAlignmentCenter;
 		currentDay.shadowColor = [UIColor darkGrayColor];
 		currentDay.shadowOffset = CGSizeMake(0, -1);
 	}
@@ -597,7 +597,7 @@
 		dot.textColor = [UIColor whiteColor];
 		dot.backgroundColor = [UIColor clearColor];
 		dot.font = [UIFont boldSystemFontOfSize:dotFontSize];
-		dot.textAlignment = UITextAlignmentCenter;
+		dot.textAlignment = NSTextAlignmentCenter;
 		dot.shadowColor = [UIColor darkGrayColor];
 		dot.shadowOffset = CGSizeMake(0, -1);
 	}
@@ -838,7 +838,7 @@
 		UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(46 * i, 29, 46, 15)];
 		[self addSubview:label];
 		label.text = s;
-		label.textAlignment = UITextAlignmentCenter;
+		label.textAlignment = NSTextAlignmentCenter;
 		label.shadowColor = [UIColor whiteColor];
 		label.shadowOffset = CGSizeMake(0, 1);
 		label.font = [UIFont systemFontOfSize:11];
@@ -1082,7 +1082,7 @@
 	if(monthYear==nil){
 		monthYear = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.tileBox.frame.size.width, 38)];
 		
-		monthYear.textAlignment = UITextAlignmentCenter;
+		monthYear.textAlignment = NSTextAlignmentCenter;
 		monthYear.backgroundColor = [UIColor clearColor];
 		monthYear.font = [UIFont boldSystemFontOfSize:18];
 		monthYear.textColor = [UIColor colorWithRed:59/255. green:73/255. blue:88/255. alpha:1];
