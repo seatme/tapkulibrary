@@ -649,12 +649,12 @@ static UIImage *tileImage;
 }
 - (instancetype) initWithSundayAsFirst:(BOOL)s timeZone:(NSTimeZone*)timeZone{
 	if (!(self = [super initWithFrame:CGRectMake(0, 0, VIEW_WIDTH, VIEW_WIDTH)])) return nil;
-	self.backgroundColor = [UIColor colorWithHex:0xaaaeb6];
+	self.backgroundColor = [UIColor clearColor];
 	self.timeZone = timeZone;
 	self.sunday = s;
 	
 	[self addSubview:self.dropshadow];
-	[self addSubview:self.topBackground];
+//	[self addSubview:self.topBackground];
 	[self addSubview:self.leftArrow];
 	[self addSubview:self.rightArrow];
 	[self addSubview:self.tileBox];
@@ -951,7 +951,7 @@ static UIImage *tileImage;
 	_monthYear = [[UILabel alloc] initWithFrame:CGRectInset(CGRectMake(0, 0, VIEW_WIDTH, 36), 40, 6)];
 	_monthYear.textAlignment = NSTextAlignmentCenter;
 	_monthYear.backgroundColor = [UIColor clearColor];
-	_monthYear.font = [UIFont boldSystemFontOfSize:22];
+	_monthYear.font = [UIFont boldSystemFontOfSize:18];
 	_monthYear.shadowColor = [UIColor whiteColor];
 	_monthYear.shadowOffset = CGSizeMake(0,1);
 	_monthYear.textColor = gradientColor;
