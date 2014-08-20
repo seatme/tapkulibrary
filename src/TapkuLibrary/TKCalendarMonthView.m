@@ -659,7 +659,7 @@ static UIImage *tileImage;
 	[self addSubview:self.rightArrow];
 	[self addSubview:self.tileBox];
 	[self addSubview:self.monthYear];
-	[self addSubview:self.shadow];
+//	[self addSubview:self.shadow];
 
 	NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
 	dateFormat.dateFormat = @"eee";
